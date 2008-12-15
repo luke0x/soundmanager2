@@ -88,5 +88,5 @@ soundManager.onload = function() {
 }
 
 soundManager.onerror = function() {
-  alert('ah crapshit');
+  alert('d\'oh, something didn\'t work - SM2 failed to start.');
 }

@@ -16,6 +16,7 @@ function InlinePlayer() {
   var self = this;
   var pl = this;
   var sm = soundManager; // soundManager instance
+  this.excludeClass = 'inline-exclude'; // CSS class for ignoring MP3 links
   this.links = [];
   this.sounds = [];
   this.soundsByURL = [];
@@ -46,7 +47,7 @@ function InlinePlayer() {
   }
 
   this.classContains = function(o,cStr) {
-    return (typeof(o.className)!='undefined'?o.className.indexOf(cStr)+1:false);
+	return (typeof(o.className)!='undefined'?o.className.match(new RegExp('(\\s|^)'+cStr+'(\\s|$)')):false);
   }
 
   this.addClass = function(o,cStr) {
@@ -123,7 +124,7 @@ function InlinePlayer() {
     // a sound link was clicked
     var o = self.getTheDamnLink(e);
     var sURL = o.getAttribute('href');
-    if (!o.href || !o.href.match(/\.mp3/i)) {
+    if (!o.href || !o.href.match(/\.mp3/i) || self.classContains(o,self.excludeClass)) {
       if (isIE && o.onclick) {
         return false; // IE will run this handler before .onclick(), everyone else is cool?
       }
@@ -146,7 +147,7 @@ function InlinePlayer() {
     } else {
       // create sound
       thisSound = sm.createSound({
-       id:'mp3Sound'+(self.soundCount++),
+       id:'inlineMP3Sound'+(self.soundCount++),
        url:soundURL,
        onplay:self.events.play,
        onstop:self.events.stop,
@@ -187,7 +188,7 @@ function InlinePlayer() {
     // grab all links, look for .mp3
     var foundItems = 0;
     for (var i=0; i<oLinks.length; i++) {
-      if (oLinks[i].href.match(/\.mp3/i)) {
+      if (oLinks[i].href.match(/\.mp3/i) && !self.classContains(oLinks[i],self.excludeClass)) {
         self.addClass(oLinks[i],self.css.sDefault); // add default CSS decoration
         self.links[foundItems] = (oLinks[i]);
         self.indexByURL[oLinks[i].href] = foundItems; // hack for indexing

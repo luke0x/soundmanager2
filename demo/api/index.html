@@ -111,11 +111,13 @@ soundManager.onload = function() {
 
 <div style="margin-right:38em">
 
- <h1>SoundManager 2 Basic Examples</h1>
+ <h1>SoundManager 2: API Demo and Code Examples</h1>
 
- <p>Wondering where to start? The following are some simple examples showing how to get started with SoundManager 2.</p>
+ <p>You can run the API demos with either <a href="#flash8" onclick="window.location.replace(this.href);window.location.reload()">Flash 8</a> (default), or <a href="#flash9" onclick="window.location.replace(this.href);window.location.reload()">Flash 9</a>.</p>
 
- <p>If you're wondering <em>"How to include this script in my page?"</em>, see this <a href="../template/index.html" title="SM2 bare-bones template">bare-bones template</a> which should have the minimal, stripped-down code and instructions you need to get started.</p>
+ <p>Wondering where to start? The following are some examples showing how to get started with SoundManager 2.</p>
+
+ <p>If you're wondering <em>"How to include this script in my page?"</em>, see this <a href="../template/" title="SM2 bare-bones template" onclick="if (!document.domain) this.href=this.href+'index.html'">bare-bones template</a> which should have the minimal, stripped-down code and instructions you need to get started.</p>
 
  <p>Once you have SM2 included in your page, you merely need to hook into its onload/onerror events:</p>
 
@@ -376,7 +378,51 @@ s.destruct();
 </pre>
 <button onclick="eval(document.getElementById('demo9').innerHTML);return false">Do this</button>
 
-<p><a href="../">SoundManager 2 Demos</a></p>
+
+<h2>Demo 10: Sound timing (position accuracy testcase)</h2>
+<pre id="demo10">
+var count = 0;
+var pos = -1;
+var s = soundManager.createSound({
+  id: 's',
+  url: '../mpc/audio/CHINA_1.mp3',
+  whileplaying: function() {
+    if (count == 0) {
+      if (this.position > 1000) {
+        this.pause();
+        pos = this.position;
+        count++;
+        this.resume();
+      }
+    } else if (count == 1) {
+      soundManager._writeDebug('old position: ' + pos);
+      soundManager._writeDebug('new position: ' + this.position);
+      // See that this.position is less than pos!
+      count++;
+    }
+  }
+});
+s.play();</pre>
+<button onclick="eval(document.getElementById('demo10').innerHTML.replace(/&amp;gt;/i,'>'));return false">Do this</button>
+
+
+<h2>Demo 11: Inline whileplaying event assignment</h2>
+<pre id="demo11">
+var foo = soundManager.createSound({
+  id: 'bar',
+  url: '../mpc/audio/CHINA_1.mp3'
+});
+foo.options.whileplaying = function() {
+  soundManager._writeDebug('whileplaying(): '+this.position+' / '+this.duration);
+}
+foo.play();
+
+// note: assign .options before calling .play(), as that "bakes" the options into a play instance object.
+// the below "late" event handler assignment will have no effect on the already-playing instance.
+foo.options.onfinish = function() { soundManager._writeDebug(this.sID+' stopped.'); }
+
+</pre>
+<button onclick="eval(document.getElementById('demo11').innerHTML.replace(/&amp;gt;/i,'>'));return false">Do this</button>
 
 </div>
 

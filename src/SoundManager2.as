@@ -56,10 +56,10 @@ class SoundManager2 {
 
   var _externalInterfaceTest = function(isFirstCall) {
     if (isFirstCall) {
-      writeDebug('Flash -&gt; JS OK');
+      writeDebug('Flash to JS OK');
       ExternalInterface.call(baseJSController+"._externalInterfaceOK");
     } else {
-      writeDebug('_externalInterfaceTest(): JS &lt;-&gt; Flash OK');
+      writeDebug('_externalInterfaceTest(): JS to/from Flash OK');
       var sandboxType = System.security['sandboxType'];
       ExternalInterface.call(baseJSController+"._setSandboxType",sandboxType);
     }

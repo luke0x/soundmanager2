@@ -95,10 +95,10 @@ public class SoundManager2_AS3 extends Sprite {
 
   public function _externalInterfaceTest(isFirstCall:Boolean):Boolean {
     if (isFirstCall == true) {
-      writeDebug('Flash -&gt; JS OK');
+      writeDebug('Flash to JS OK');
       ExternalInterface.call(baseJSController+"._externalInterfaceOK");
     } else {
-      writeDebug('_externalInterfaceTest(): JS &lt;-&gt; Flash OK');
+      writeDebug('_externalInterfaceTest(): JS to/from Flash OK');
       var sandboxType:String = flash.system.Security['sandboxType'];
       ExternalInterface.call(baseJSController+"._setSandboxType",sandboxType);
     }
@@ -383,7 +383,7 @@ try {
     }
     if (s.useNetstream) {
 	// writeDebug('setPosition: seeking to '+nSecOffset/1000);
-      s.ns.seek(nSecOffset/1000);
+      s.ns.seek(nSecOffset>0?nSecOffset/1000:0);
       checkProgress(); // force UI update
     } else {
       if (s.soundChannel) {

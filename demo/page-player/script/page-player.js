@@ -106,7 +106,7 @@ function PagePlayer(oConfigOverride) {
   }
 
   this.hasClass = function(o,cStr) {
-    return (typeof(o.className)!='undefined'?o.className.indexOf(cStr)+1:false);
+    return (typeof(o.className)!='undefined'?new RegExp('(^|\\s)'+cStr+'(\\s|$)').test(o.className):false);
   }
 
   this.addClass = function(o,cStr) {
@@ -487,7 +487,7 @@ function PagePlayer(oConfigOverride) {
     } else {
       // create sound
       thisSound = sm.createSound({
-        id:'mp3Sound'+(self.soundCount++),
+        id:'pagePlayerMP3Sound'+(self.soundCount++),
         url:soundURL,
         onplay:self.events.play,
         onstop:self.events.stop,
@@ -854,7 +854,7 @@ function PagePlayer(oConfigOverride) {
     var foundItems = 0;
     for (var i=0; i<oLinks.length; i++) {
       if ((sm.canPlayURL(oLinks[i].href) || self.hasClass(oLinks[i],'playable')) && !self.hasClass(oLinks[i],'exclude')) {
-        oLinks[i].rel = 'mp3Sound'+i;
+        oLinks[i].rel = 'pagePlayerMP3Sound'+i;
         self.links[self.links.length] = oLinks[i];
         self.addClass(oLinks[i],self.css.sDefault); // add default CSS decoration
         foundItems++;

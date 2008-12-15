@@ -23,8 +23,8 @@
 <script type="text/javascript">
 
 // soundManager.debugMode = false; // disable debug output
-
 soundManager.url = '../../'; // path to directory containing SoundManager2 .SWF file
+soundManager.flashVersion = 8;
 
 soundManager.onload = function() {
   // soundManager.createSound() etc. may now be called
@@ -39,7 +39,8 @@ soundManager.onload = function() {
 
 </head>
 
-<body>
+<body style="height:100%">
+
 <div style="margin-right:43em">
  <h1>SoundManager 2 Template Example</h1>
  <p>This is a basic template for adding SoundManager to your page.</p> 
@@ -58,13 +59,27 @@ soundManager.onload = function() {
 soundManager.url = '<em><em>/path/to/sm2-flash-movies/</em></em>'; <span>// directory where SM2 .SWFs live</span>
 
 <span>// disable debug mode after development/testing..</span>
-// soundManager.debugMode = false;</span>
+<span>// soundManager.debugMode = false;</span>
+
+<span style="background:#eee;padding:0.25em">// Option 1: Simple createSound method</span>
 
 soundManager.onload = function() {
   <span>// SM2 has loaded - now you can create and play sounds!</span>
   <em><em>soundManager.createSound('helloWorld','/path/to/hello-world.mp3');
   soundManager.play('helloWorld');</em></em>
-}
+</em></em>}
+
+<span style="background:#eee;padding:0.25em">// Option 2: More flexible createSound method (recommended)</span>
+
+soundManager.onload = function() {
+  <em><em>var mySound = soundManager.createSound({
+    id: 'aSound',
+    url: '/path/to/an.mp3',
+    <span>// onload: <span>[ event handler function object ]</span></span>,
+    <span>// other options here</span>
+  });
+  mySound.play();
+</em></em>}
 
 &lt;/script&gt;</pre></code>
 
@@ -76,7 +91,7 @@ soundManager.onload = function() {
 <code>soundManager.debugMode = false;</code>
  <p>To see related configuration code, refer to the source of this page which basically does all of the above "for real."</p>
  <h2>No-debug, compressed version of soundmanager2.js</h2>
- <p>Once development is finished, you can also use the "minified" (50% smaller) version of SM2, which has debug output and comments removed for you: <a href="../../script/soundmanager2-nodebug-jsmin.js">soundmanager2-nodebug-jsmin.js</a>. If you can, serve this with gzip compression for even greater bandwidth savings!</p>
+ <p>Once development is finished, you can also use the "minified" (60% smaller) version of SM2, which has debug output and comments removed for you: <a href="../../script/soundmanager2-nodebug-jsmin.js">soundmanager2-nodebug-jsmin.js</a>. If you can, serve this with gzip compression for even greater bandwidth savings!</p>
  
 </div>
 
